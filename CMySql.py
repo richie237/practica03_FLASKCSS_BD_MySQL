@@ -16,21 +16,32 @@ def f_agregar_registro(nombre, apellido_paterno, apellido_materno, fecha_nacimie
     try:
         conexion = f_conectar()
         cursor = conexion.cursor()
-        # Aquí va tu consulta INSERT INTO ...
-        # cursor.execute(sql, valores)
-        # conexion.commit()
+        sql = """
+            INSERT INTO clientes (
+                nombre, apellido_paterno, apellido_materno, fecha_nacimiento,
+                genero, correo, telefono, estado, ciudad, codigo_postal,
+                tipo_cliente, intereses, limite_credito, observaciones
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """
+        valores = (
+            nombre, apellido_paterno, apellido_materno, fecha_nacimiento,
+            genero, correo, telefono, estado, ciudad, codigo_postal,
+            tipo_cliente, intereses, limite_credito, observaciones
+        )
+        cursor.execute(sql, valores)
+        conexion.commit()  # Confirma y guarda los datos en la base de datos
         conexion.close()
     except Exception as e:
-        print(f"No se pudo conectar a MySQL remoto: {e}")
+        print(f"Error al guardar registro: {e}")
 
 def f_listar_clientes():
     try:
         conexion = f_conectar()
         cursor = conexion.cursor()
-        cursor.execute("SELECT * FROM clientes") # Ajusta al nombre de tu tabla
+        cursor.execute("SELECT * FROM clientes")
         registros = cursor.fetchall()
         conexion.close()
         return registros
     except Exception as e:
-        print(f"Error al listar: {e}")
+        print(f"Error al consultar clientes: {e}")
         return []
