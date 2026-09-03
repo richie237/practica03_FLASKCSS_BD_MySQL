@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from CMySql import f_agregar_registro, f_listar_clientes
+from CPostgres import f_agregar_registro, f_listar_clientes
 
 app = Flask(__name__)
 
