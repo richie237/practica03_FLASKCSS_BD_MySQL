@@ -1,11 +1,13 @@
 import mysql.connector
+import os
 
 def f_conectar():
     return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="root",
-        database="comercio"
+        host=os.getenv("DB_HOST", "localhost"),
+        user=os.getenv("DB_USER", "root"),
+        password=os.getenv("DB_PASSWORD", "root"),
+        database=os.getenv("DB_NAME", "comercio"),
+        port=int(os.getenv("DB_PORT", 3306))
     )
 
 def f_agregar_registro(nombre, apellido_paterno, apellido_materno, fecha_nacimiento,
